@@ -692,7 +692,7 @@ def _write_header(out_file, top, atom_style, dihedral_parser):
         for potential in unique_dtypes:
             for param in potential.parameters.values():
                 paramList = param.tolist()
-                if isinstance(paramList, float):
+                if isinstance(paramList, float) or isinstance(paramList, int):
                     nparams += 1
                 else:
                     for _ in param.tolist():
@@ -1115,7 +1115,6 @@ def _write_impropertypes(out_file, top, base_unyts, parser, cfactorsDict):
             )
             idx += 1
     index_membersList = [index_membersList[i][0] for i in range(len(index_membersList))]  # R.S. for bug prevention
-
     return index_membersList  # cvff is not layered, so no added to list
 
 
