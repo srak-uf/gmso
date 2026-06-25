@@ -1114,6 +1114,8 @@ def _write_impropertypes(out_file, top, base_unyts, parser, cfactorsDict):
                 )
             )
             idx += 1
+    index_membersList = [index_membersList[i][0] for i in range(len(index_membersList))]  # R.S. for bug prevention
+
     return index_membersList  # cvff is not layered, so no added to list
 
 
