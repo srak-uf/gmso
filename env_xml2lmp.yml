@@ -17,4 +17,4 @@ dependencies:
   - symengine
   - python-symengine
   - openmm
-  - paramed
+  - parmed
