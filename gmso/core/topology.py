@@ -896,11 +896,22 @@ class Topology(object):
         # Check if an equivalent connection is in the topology
         equivalent_members = connection.equivalent_members()
         if equivalent_members in self._unique_connections:
-            logger.info(
-                "An equivalent connection already exists. "
-                "Providing the existing equivalent Connection."
-            )
-            connection = self._unique_connections[equivalent_members]
+            # self._unique_connections[connection.equivalent_members()].connection_type.parametersのパラメータをunique_parameters変数に
+            unique_parameters = self._unique_connections[equivalent_members].connection_type.parameters
+            # parametersのkeysが一致しているか確認
+            if connection.connection_type.parameters.keys() != unique_parameters.keys():
+                keys_flag_dict = {}
+                for key in connection.connection_type.parameters.keys():
+                    keys_flag_dict[key] = False
+                for key in unique_parameters.keys():
+                    if np.isclose(connection.connection_type.parameters[key], unique_parameters[key]):
+                        keys_flag_dict[key] = True
+                if not all(keys_flag_dict.values()):
+                    logger.info(
+                        "An equivalent connection already exists. "
+                        "Providing the existing equivalent Connection."
+                    )
+                    connection = self._unique_connections[equivalent_members]
 
         for conn_member in connection.connection_members:
             self.add_site(conn_member)
